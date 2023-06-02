@@ -78,6 +78,11 @@ module "budget" {
   }
 }
 
+locals {
+  create_key = var.external_master_encryption_key != "" ? false : var.create_master_encryption_key
+
+}
+
 module "security" {
   source                               = "../elz-security"
   enable_cloud_guard                   = var.enable_cloud_guard
@@ -96,7 +101,7 @@ module "security" {
   vault_type                           = var.vault_type
   replica_region                       = var.vault_replica_region
   enable_replication                   = var.enable_vault_replication
-  create_master_encryption_key         = var.create_master_encryption_key
+  create_master_encryption_key         = local.create_key
 
   providers = {
     oci             = oci

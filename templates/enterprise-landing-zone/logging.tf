@@ -144,7 +144,8 @@ module "service_connector_archive_policy" {
 }
 
 module "archive_key" {
-  source = "../../modules/key"
+  source              = "../../modules/key"
+  count               = var.archive_external_master_encryption_key == "" ? 1 : 0
   compartment_ocid    = module.prod_environment.compartment.security.id
   display_name        = local.archive_key.name
   shape_algorithm     = local.archive_key.shape_algorithm
@@ -157,6 +158,7 @@ module "archive_key" {
 
 module "key_archive_policy" {
   source           = "../../modules/policies"
+  count            = var.archive_external_master_encryption_key == "" ? 1 : 0
   compartment_ocid = module.home_compartment.compartment_id
   policy_name      = local.key_archive_policy.name
   description      = local.key_archive_policy.description
@@ -165,12 +167,16 @@ module "key_archive_policy" {
   depends_on = [module.prod_environment, module.nonprod_environment, module.home_compartment]
 }
 
+locals {
+  archive_key_id = var.archive_external_master_encryption_key != "" ? var.archive_external_master_encryption_key : module.archive_key[0].key_ocid
+}
+
 module "archive_bucket" {
   source                              = "../../modules/bucket"
   tenancy_ocid                        = var.tenancy_ocid
   compartment_id                      = module.home_compartment.compartment_id
   name                                = local.archive_log_bucket.name
-  kms_key_id                          = module.archive_key.key_ocid
+  kms_key_id                          = local.archive_key_id
   storage_tier                        = local.archive_log_bucket.bucket_storage_tier
   retention_rule_display_name         = local.archive_log_bucket.retention_rule_display_name
   retention_policy_duration_amount    = local.archive_log_bucket.retention_policy_duration_amount

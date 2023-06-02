@@ -217,6 +217,12 @@ variable "create_master_encryption_key" {
   description = "Option create master encryption key"
 }
 
+variable "external_master_encryption_key" {
+  type        = string
+  description = "OCID of existing key to use (instead of creating a new MEK)"
+  default     = ""
+}
+
 # -----------------------------------------------------------------------------
 # Network Variables
 # -----------------------------------------------------------------------------

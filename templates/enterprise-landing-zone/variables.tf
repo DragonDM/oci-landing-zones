@@ -311,10 +311,22 @@ variable "prod_create_master_encryption_key" {
   default     = true
 }
 
+variable "prod_external_master_encryption_key" {
+  type        = string
+  description = "OCID of existing key to use (instead of creating a new MEK)"
+  default     = ""
+}
+
 variable "nonprod_create_master_encryption_key" {
   type        = bool
   description = "Option create master encryption key"
   default     = true
+}
+
+variable "nonprod_external_master_encryption_key" {
+  type        = string
+  description = "OCID of existing key to use (instead of creating a new MEK)"
+  default     = ""
 }
 
 # -----------------------------------------------------------------------------

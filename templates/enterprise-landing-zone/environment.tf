@@ -102,6 +102,7 @@ module "prod_environment" {
   vault_replica_region                 = var.prod_vault_replica_region
   enable_vault_replication             = var.prod_enable_vault_replication
   create_master_encryption_key         = var.prod_create_master_encryption_key
+  external_master_encryption_key       = var.prod_external_master_encryption_key
 
   retention_policy_duration_amount    = var.prod_retention_policy_duration_amount
   retention_policy_duration_time_unit = var.prod_retention_policy_duration_time_unit
@@ -238,6 +239,7 @@ module "nonprod_environment" {
   vault_replica_region                 = var.nonprod_vault_replica_region
   enable_vault_replication             = var.nonprod_enable_vault_replication
   create_master_encryption_key         = var.nonprod_create_master_encryption_key
+  external_master_encryption_key       = var.nonprod_external_master_encryption_key
 
   retention_policy_duration_amount    = var.nonprod_retention_policy_duration_amount
   retention_policy_duration_time_unit = var.nonprod_retention_policy_duration_time_unit
